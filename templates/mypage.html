@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3> Email </h3>
+    <form method="Post">
+        <input type="text" value={{ user.email }}>
+    </form>
+    <h3> Change Password </h3>
+    <form method=Post">
+        <input type="password" name="password" placeholder="New password" >
+        <input type="password" name="confirm_password" placeholder="Confirm password" >
+    </form>
+{% endblock content %}

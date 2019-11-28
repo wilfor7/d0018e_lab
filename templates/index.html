@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 id="products_header">Products</h2>
+    {% set i = namespace(value=-1) %}
+    {% for product in products %}
+        {% set i.value = i.value + 1 %}
+        {% if i.value % 2 == 0 %}
+            <div id="product_info_white">
+        {% else %}
+            <div id="product_info_gray">
+        {% endif %}
+        <img id="product_image" src="/static/images/{{ product.image_filename }}">
+            <div id="product_text">
+                <h3 id="product_name"> {{ product.name }}</h3>
+                <p id="product_desc">  {{ product.short_description }} </p>
+            </div>
+            <div id="product_nrs">
+                <p id="product_quantity"> {{ product.quantity }} st </p>
+                <p id="product_price"> {{ product.price }} kr </p>
+            </div>
+            <form action="/add_to_cart/{{ product.product_id }}" method="Post" >
+                <input id="add_to_cart" type="submit" value="Lägg till">
+            </form>
+        </div>
+    {% endfor %}
+{% endblock content %}
