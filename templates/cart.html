@@ -18,6 +18,18 @@
             <div id="product_nrs">
                 <p id="product_quantity"> {{ product.quantity }} st </p>
                 <p id="product_price"> {{ product.price*product.quantity }} kr </p>
+                <form action="{{ url_for("remove_cart_product") }}" method="POST">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <input type="submit" id="increment_btn" value="Ta bort">
+                </form>
+                 <form action="{{ url_for("increment_cart_product") }}" method="POST">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <input type="submit" id="remove_btn" value="+">
+                </form>
+                <form action="{{ url_for("decrement_cart_product") }}" method="POST">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <input type="submit" id="decrement_btn" value="-">
+                </form>
             {% set total_price.value = total_price.value + product.price*product.quantity %}
             </div>
         </div>

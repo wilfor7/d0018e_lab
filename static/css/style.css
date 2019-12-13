@@ -23,7 +23,7 @@ header a.logo_link {
     text-decoration: none;
 }
 
-header form.navbar_login {
+header form.login {
     float: right;
     margin: 20px;
 }
@@ -68,7 +68,7 @@ header .container {
     left: 500px;
 }
 
-#logout {
+#logout_btn {
     float: right;
     position: relative;
     top: 18px;

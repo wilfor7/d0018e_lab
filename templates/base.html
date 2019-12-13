@@ -15,7 +15,7 @@
             <div class="container">
                 <h1 class="logo"><a class="logo_link" href="/"> Computers & Hardware & Stuff </a></h1>
                 {% if not user %}
-                    <form method="POST" class="navbar_login">
+                    <form action="{{ url_for("login_user") }}" method="POST" class="login">
                         <input type="text" name="email" placeholder="Email">
                         <input type="password" name="password" placeholder="Password">
                         <input type="submit" value="Login">
@@ -23,11 +23,15 @@
                     <a id="register_link" href={{ url_for("register") }}>Register</a>
                 {% else %}
                      <p id="greeting">
-                        Hi {{ user.first_name }} {{ user.last_name }}
+                     {% if user.last_name == None %}
+                        Hi {{ user.first_name }}
+                     {% else %}
+                         Hi {{ user.first_name }} {{ user.last_name }}
+                     {% endif %}
                      </p>
                     <a id="mypage_link" href={{ url_for("my_page") }}>My Page</a>
                     <a id="cart_link" href={{ url_for("shopping_cart") }}>Kundvagn</a>
-                    <form id="logout" action="" method="post" >
+                    <form action="{{ url_for("logout_user") }}" id="logout_btn" method="post" >
                         <input type="submit" value="Logout">
                     </form>
                 {% endif %}
@@ -42,6 +46,7 @@
                 {% endwith %}
             </div>
         </header>
+
         <!-- Content -->
         <div class="container">
             {% block content %} {% endblock content %}

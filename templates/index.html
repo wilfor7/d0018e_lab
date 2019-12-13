@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2 id="products_header">Products</h2>
+    <h2 id="products_header">Products </h2>
     {% set i = namespace(value=-1) %}
     {% for product in products %}
         {% set i.value = i.value + 1 %}
@@ -18,7 +18,8 @@
                 <p id="product_quantity"> {{ product.quantity }} st </p>
                 <p id="product_price"> {{ product.price }} kr </p>
             </div>
-            <form action="/add_to_cart/{{ product.product_id }}" method="Post" >
+            <form action="{{ url_for("add_to_cart") }}" method="Post" >
+                <input type="hidden" name="product_id" value="{{ product.product_id }}">
                 <input id="add_to_cart" type="submit" value="Lägg till">
             </form>
         </div>
