@@ -13,7 +13,7 @@
         <!-- Navigation bar -->
         <header>
             <div class="container">
-                <h1 class="logo"><a class="logo_link" href="/"> Computers & Hardware & Stuff </a></h1>
+                <h1 class="logo"><a class="link" href="/"> Computers & Hardware & Stuff </a></h1>
                 {% if not user %}
                     <form action="{{ url_for("login_user") }}" method="POST" class="login">
                         <input type="text" name="email" placeholder="Email">
@@ -48,6 +48,20 @@
         </header>
 
         <!-- Content -->
+        <div id="category_container">
+            <form action="{{ url_for("set_category") }}" method="POST">
+                <input type="hidden" name="category_id" value="0">
+                <input type="submit" id="category_btn" value="All products">
+            </form>
+
+            {% for category in categories %}
+                <form action="{{ url_for("set_category") }}" method="POST">
+                    <input type="hidden" name="category_id" value="{{ category.category_id }}">
+                    <input type="hidden" name="category_name" value="{{ category.name }}">
+                    <input type="submit" id="category_btn" value="{{ category.name }}">
+                </form>
+            {% endfor %}
+        </div>
         <div class="container">
             {% block content %} {% endblock content %}
         </div>

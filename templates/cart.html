@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2 id="cart_header">My Shopping Cart</h2>
+    <h2 id="page_title">My Shopping Cart</h2>
     {% set i = namespace(value=-1) %}
     {% set total_price = namespace(value=0) %}
     {% for product in cart_products %}
@@ -40,11 +40,13 @@
     {% else %}
         <div id="product_info_gray">
     {% endif %}
-    <h3 id="total_price_header">Total price: </h3>
-    <p id="total_price">{{ total_price.value }} kr</p>
-    <form method="Post" >
-        <input id="checkout_cart" type="submit" value="Betala">
-    </form>
+    <h3 id="total_price">Total price: </h3>
+    <p id="total_price_nr">{{ total_price.value }} kr</p>
+    {% if not cart_empty %}
+        <form method="Post" >
+            <input id="checkout_cart" type="submit" value="Betala">
+        </form>
+    {% endif %}
     </div>
     <!-- checkout and total price -->
 {% endblock content %}

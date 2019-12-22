@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2> My Page </h2>
-    <form method="Post">
+    <h2 id="page_title"> My Page </h2>
+    <form method="Post" id="mypage_forms">
         <input type="text" name="email" value="{{ user.email }}" placeholder="Email">
         <input type="text" name="confirm_email" value="{{ user.email }}" placeholder="Confirm Email">
         <input type="password" name="password" placeholder="New password" >
@@ -23,7 +23,7 @@
             {% if order.order_id == product.order_id %}
                 <p id="order_product_name"> {{ product.name }} </p>
                 <p id="order_product_quantity"> {{ product.quantity }} </p>
-                <p id="order_product_price"> {{ product.price }} </p>
+                <p id="order_product_price"> {{ product.price*product.quantity }} </p>
             {% endif %}
         {% endfor %}
     {% endfor %}

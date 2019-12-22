@@ -41,6 +41,7 @@ class Database:
         sql += ")"
         self.cursor.execute(sql, values)
 
+    # Gets the entire table, no filtering (WHERE clause)
     def __fetch_table(self, table_name):
         sql = "SELECT * FROM " + table_name
         self.cursor.execute(sql)
@@ -69,21 +70,28 @@ class Database:
             result.append(dictionary)
         return result
 
-    # Returns a list of dictionaries, one for each product
-    # Each dictionary has a entry for each column:
-    #   {column_name : value}
-    def get_products(self):
-        table = self.__fetch_table("products")      # actual table information (list of lists)
-        column_names = self.cursor.column_names     # column names of table (list)
-        result = []
-        for product in table:   # table = list of lists
-            i = 0
-            dictionary = {}
-            for name in column_names:
-                dictionary[name] = product[i]
-                i += 1
-            result.append(dictionary)
-        return result
+    # Get all categories
+    def get_categories(self):
+        categories = self.__fetch_table("categories")
+        return self.__parse_double_list(categories)
+
+    def get_product(self, product_id):
+        sql = "SELECT * FROM products WHERE product_id = " + str(product_id)
+        self.cursor.execute(sql)
+        product = self.cursor.fetchone()
+        if product is None:
+            return product
+        return self.__parse_list(product)
+
+    # Get products of some category. If category is None all products are fetched
+    def get_products(self, category_id=None):
+        if category_id is None:
+            products = self.__fetch_table("products")      # actual table information (list of lists)
+        else:
+            sql = "SELECT * FROM products WHERE category_id = " + str(category_id)
+            self.cursor.execute(sql)
+            products = self.cursor.fetchall()
+        return self.__parse_double_list(products)
 
     # Subtracts the quantity of products in the table "products" with some given products
     def subtract_products_quantity(self, products):
@@ -114,9 +122,14 @@ class Database:
             return -1
         return self.__parse_list(user_info)
 
-    def change_user_info(self, new_email, old_email, password):
-        sql = "UPDATE users SET password_hash = '" + generate_password_hash(password) + "', email = '" + new_email + \
-              "' WHERE email = '" + old_email + "'"
+    def change_user_email(self, old_user_email, new_user_email,):
+        sql = "UPDATE users SET email = '" + new_user_email + "' WHERE email = '" + old_user_email + "'"
+        self.cursor.execute(sql)
+        self.db.commit()
+
+    def change_user_password(self, user_email, password):
+        sql = "UPDATE users SET password_hash = '" + generate_password_hash(password) + "' WHERE email = '" + \
+              user_email + "'"
         self.cursor.execute(sql)
         self.db.commit()
 
@@ -208,3 +221,14 @@ class Database:
         self.cursor.execute(sql)
         ordered_products = self.cursor.fetchall()
         return self.__parse_double_list(ordered_products)
+
+    def add_comment(self, user_id, product_id, comment, rating):
+        columns = ("user_id", "product_id", "comment", "rating")
+        values = (str(user_id), str(product_id), str(comment), str(rating))
+        self.__table_insert("comments", columns, values)
+
+    def get_comments(self, product_id):
+        sql = "SELECT * FROM comments WHERE product_id = " + str(product_id)
+        self.cursor.execute(sql)
+        comments = self.cursor.fetchall()
+        return self.__parse_double_list(comments)

@@ -1,4 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
-    <!-- stuff -->
+    <img id="product_page_image" src="/static/images/{{ product.image_filename }}">
+    <div id="product_page_container" >
+        <h1 id="product_page_price"> {{ product.price }} kr </h1>
+        <h2 id="product_page_quantity"> {{ product.quantity }} st </h2>
+        <form action="{{ url_for("add_to_cart") }}" method="POST">
+            <input type="hidden" name="product_id" value="{{ product.product_id }}">
+            <input type="submit" id="product_page_add_to_cart" value="Köp">
+        </form>
+    </div>
+    <h1 id="product_page_name"> {{ product.name }} </h1>
+    <p id="product_page_description"> {{ product.full_description }}</p>
+
+    <hr>
+    <form method="POST">
+        <textarea placeholder="Give a comment about this product." name="test" id="product_page_add_comment"></textarea>
+        <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5" checked/>
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+        </div>
+        <input type="submit" value="Skicka" id="product_page_submit_comment">
+    </form>
+
+    <h1 id="page_title"> Comments </h1>
+    {% if comments %}
+        {% for comment in comments %}
+            <div id="product_page_comments">
+                <h4> Användare #{{ comment.user_id }} says: </h4>
+                <p>{{ comment.comment }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3 id="product_page_no_comments"> There are no comments about this product. </h3>
+    {% endif %}
 {% endblock content %}

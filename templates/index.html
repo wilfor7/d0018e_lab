@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2 id="products_header">Products </h2>
+    {% if active_category_name %}
+        <h2 id="page_title"> {{ active_category_name }} </h2>
+    {% else %}
+        <h2 id="page_title"> All Products </h2>
+    {% endif %}
     {% set i = namespace(value=-1) %}
     {% for product in products %}
         {% set i.value = i.value + 1 %}
@@ -11,7 +15,7 @@
         {% endif %}
         <img id="product_image" src="/static/images/{{ product.image_filename }}">
             <div id="product_text">
-                <h3 id="product_name"> {{ product.name }}</h3>
+                <h3 id="product_name"><a href="{{ url_for("show_product", product_id=product.product_id) }}" class="link"> {{ product.name }} </a></h3>
                 <p id="product_desc">  {{ product.short_description }} </p>
             </div>
             <div id="product_nrs">
@@ -20,8 +24,9 @@
             </div>
             <form action="{{ url_for("add_to_cart") }}" method="Post" >
                 <input type="hidden" name="product_id" value="{{ product.product_id }}">
-                <input id="add_to_cart" type="submit" value="Lägg till">
+                <input id="add_to_cart" type="submit" value="Köp">
             </form>
         </div>
     {% endfor %}
+
 {% endblock content %}

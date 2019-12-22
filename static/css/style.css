@@ -18,7 +18,7 @@ header h1.logo {
     margin: 10px;
 }
 
-header a.logo_link {
+a.link {
     color: black;
     text-decoration: none;
 }
@@ -40,6 +40,18 @@ header .container {
     width: 800px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#category_container {
+    display: inline;
+    float: left;
+    position: relative;
+    left: 440px;
+    top: 100px;
+}
+
+#category_btn {
+    width: 100px;
 }
 
 #greeting {
@@ -75,22 +87,78 @@ header .container {
     right: 62px;
 }
 
-#register_header {
-
-}
-
-#register {
-
-}
-
-#products_header {
+#page_title {
     margin-left: 10px;
     float: left;
 }
 
-#cart_header {
-    margin-left: 10px;
+#register_forms {
+    clear: both;
+}
+
+#mypage_forms {
+    clear: both;
+}
+
+#product_page_name {
+    font-size: 30px;
+    clear: both;
+    text-align: center;
+}
+
+#product_page_image {
+    width: 350px;
+    height: 350px;
     float: left;
+}
+
+#product_page_container {
+    float: right;
+    width: 450px;
+    height: 350px;
+    text-align: center;
+}
+
+#product_page_price {
+    position: relative;
+    top: 60px;
+    font-size: 50px;
+}
+
+#product_page_quantity {
+    position: relative;
+    top: 95px;
+}
+
+#product_page_add_to_cart {
+    position: relative;
+    bottom: 10px;
+    width: 200px;
+    height: 40px;
+    font-size: 20px;
+}
+
+#product_page_add_comment {
+    width: 500px;
+    height: 80px;
+    resize: none;
+}
+
+#product_page_no_comments
+{
+    clear: both;
+}
+
+#product_page_comments {
+    clear: both;
+}
+
+#product_page_submit_comment {
+    position: relative;
+    bottom: 38px;
+    left: 20px;
+    width: 80px;
+    height: 30px;
 }
 
 #product_info_gray {
@@ -115,14 +183,14 @@ header .container {
 
 }
 
-#total_price_header {
+#total_price {
     float: left;
     position: relative;
     left: 500px;
     bottom: 6px;
 }
 
-#total_price {
+#total_price_nr {
     display: inline;
     position: relative;
     right: 100px;
@@ -141,14 +209,6 @@ header .container {
     float:left;
     width: 100px;
     height: inherit;
-}
-
-#product_name {
-
-}
-
-#product_desc {
-
 }
 
 #product_nrs {
@@ -176,3 +236,44 @@ header .container {
     float: right;
     margin: 20px;
 }
+
+
+.rate {
+    top: 20px;
+    position: relative;
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */

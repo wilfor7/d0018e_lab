@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2 id="register_header">Register</h2>
-    <form action="{{ url_for("register_user") }}" method="POST" id="register">
+    <h2 id="page_title">Register</h2>
+    <form action="{{ url_for("register_user") }}" method="POST" id="register_forms">
         <input type="text" name="first_name" placeholder="First name">
         <input type="text" name="last_name" placeholder="Last name">
         <input type="text" name="email" placeholder="Email">
