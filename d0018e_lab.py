@@ -139,22 +139,22 @@ def register_user():
     db_user = db.get_user(email)
     if db_user is not -1:
         flash("A user with that email already exists.")
-        return render_template("register.html")
+        return redirect(url_for("register"))
     if len(email) == 0:
         flash("Please enter an email.")
-        return render_template("register.html")
+        return redirect(url_for("register"))
     password = request.form["password"]
     confirm_password = request.form["confirm_password"]
     if password != confirm_password:
         flash("The passwords does not match. Try again.")
-        return render_template("register.html")
+        return redirect(url_for("register"))
     if len(password) == 0:
         flash("Please enter a password.")
-        return render_template("register.html")
+        return redirect(url_for("register"))
     first_name = request.form["first_name"]
     if len(first_name) == 0:
         flash("Please enter a first name.")
-        return render_template("register.html")
+        return redirect(url_for("register"))
     user_columns = ("email", "password_hash", "first_name", "last_name", "date_joined")
     user_values = [email, generate_password_hash(password),
                    first_name, request.form["last_name"], date.today().__str__()]

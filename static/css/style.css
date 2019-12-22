@@ -87,6 +87,11 @@ header .container {
     right: 62px;
 }
 
+#flash_message {
+    position: relative;
+    left: 800px;
+}
+
 #page_title {
     margin-left: 10px;
     float: left;

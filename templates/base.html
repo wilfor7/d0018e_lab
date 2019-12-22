@@ -35,17 +35,17 @@
                         <input type="submit" value="Logout">
                     </form>
                 {% endif %}
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                        <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {% endwith %}
             </div>
         </header>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li id="flash_message">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
 
         <!-- Content -->
         <div id="category_container">
