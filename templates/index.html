@@ -1,32 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-    {% if active_category_name %}
-        <h2 id="page_title"> {{ active_category_name }} </h2>
-    {% else %}
-        <h2 id="page_title"> All Products </h2>
-    {% endif %}
+    <h2 id="page_title"> {{ active_category.name }} </h2>
     {% set i = namespace(value=-1) %}
-    {% for product in products %}
-        {% set i.value = i.value + 1 %}
-        {% if i.value % 2 == 0 %}
-            <div id="product_info_white">
-        {% else %}
-            <div id="product_info_gray">
-        {% endif %}
-        <img id="product_image" src="/static/images/{{ product.image_filename }}">
-            <div id="product_text">
-                <h3 id="product_name"><a href="{{ url_for("show_product", product_id=product.product_id) }}" class="link"> {{ product.name }} </a></h3>
-                <p id="product_desc">  {{ product.short_description }} </p>
+    {% if products %}
+        {% for product in products %}
+            {% set i.value = i.value + 1 %}
+            {% if i.value % 2 == 0 %}
+                <div id="product_info_white">
+            {% else %}
+                <div id="product_info_gray">
+            {% endif %}
+            <img id="product_image" src="/static/images/{{ product.image_filename }}">
+                <div id="product_text">
+                    <h3 id="product_name"><a href="{{ url_for("show_product", product_id=product.product_id) }}" class="link"> {{ product.name }} </a></h3>
+                    <p id="product_desc">  {{ product.short_description }} </p>
+                </div>
+                <div id="product_nrs">
+                    <p id="product_quantity"> {{ product.quantity }} st </p>
+                    <p id="product_price"> {{ product.price }} kr </p>
+                </div>
+                <form action="{{ url_for("add_to_cart") }}" method="Post" >
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <input type="hidden" name="category_id" value="{{ active_category.id }}">
+                    <input type="hidden" name="show_page" value="0">
+                    <input id="add_to_cart" type="submit" value="Buy">
+                </form>
             </div>
-            <div id="product_nrs">
-                <p id="product_quantity"> {{ product.quantity }} st </p>
-                <p id="product_price"> {{ product.price }} kr </p>
-            </div>
-            <form action="{{ url_for("add_to_cart") }}" method="Post" >
-                <input type="hidden" name="product_id" value="{{ product.product_id }}">
-                <input id="add_to_cart" type="submit" value="Köp">
-            </form>
+        {% endfor %}
+    {% else %}
+        <div id="product_info_white">
+            <h3 id="no_products"> No products found. Try again. </h3>
         </div>
-    {% endfor %}
+    {% endif %}
 
 {% endblock content %}

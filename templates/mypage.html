@@ -2,8 +2,8 @@
 {% block content %}
     <h2 id="page_title"> My Page </h2>
     <form method="Post" id="mypage_forms">
-        <input type="text" name="email" value="{{ user.email }}" placeholder="Email">
-        <input type="text" name="confirm_email" value="{{ user.email }}" placeholder="Confirm Email">
+        <input type="text" name="email" value="{{ user.email }}" placeholder="New email">
+        <input type="text" name="confirm_email" value="{{ user.email }}" placeholder="Confirm email">
         <input type="password" name="password" placeholder="New password" >
         <input type="password" name="confirm_password" placeholder="Confirm password" >
         <input type="submit" value="Save">
@@ -12,18 +12,41 @@
     <h2> Orders </h2>
     {% for order in orders %}
         {% set total_price = namespace(value=0) %}
+        {% set i = namespace(value=-1) %}
         {% for product in ordered_products %}
             {% if order.order_id == product.order_id %}
                 {% set total_price.value = total_price.value + product.price*product.quantity %}
             {% endif %}
         {% endfor %}
-        <p id="order_date"> Order: {{ order.date_ordered }} </p>
-        <p id="order_price"> Price: {{ total_price.value }} </p>
+            <div id="order_header">
+                <h3 id="order_date"> Date of order: {{ order.date_ordered }} </h3>
+                <h3 id="order_price"> Total price of order: {{ total_price.value }} kr </h3>
+                {% if order.complete == False %}
+                    <form action="{{ url_for("cancel_order") }}" method="POST">
+                        <input type="hidden" name="cancel_order_id" value="{{ order.order_id }}">
+                        <input type="submit" value="Cancel" id="order_cancel">
+                    </form>
+                {% else %}
+                    <h3 id="order_complete"> Completed </h3>
+                {% endif %}
+            </div>
+            <div id="order_product_header">
+                <p id="order_product_header_name"> Product name </p>
+                <p id="order_product_header_quantity"> Quantity </p>
+                <p id="order_product_header_price"> Total price </p>
+            </div>
         {% for product in ordered_products %}
+            {% set i.value = i.value + 1 %}
             {% if order.order_id == product.order_id %}
-                <p id="order_product_name"> {{ product.name }} </p>
-                <p id="order_product_quantity"> {{ product.quantity }} </p>
-                <p id="order_product_price"> {{ product.price*product.quantity }} </p>
+                {% if i.value % 2 == 0 %}
+                    <div id="order_info_white">
+                {% else %}
+                    <div id="order_info_gray">
+                {% endif %}
+                    <p id="order_product_name"><a href="{{ url_for("show_product", product_id=product.product_id) }}" class="link"> {{ product.name }} </a></p>
+                    <p id="order_product_quantity"> {{ product.quantity }} </p>
+                    <p id="order_product_price"> {{ product.price*product.quantity }} kr </p>
+                </div>
             {% endif %}
         {% endfor %}
     {% endfor %}

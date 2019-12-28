@@ -7,15 +7,15 @@ body {
 
 header {
     background-color: #fff1b8;
-    height: 55px;
-    width: 100%;
+    height: 6vh;
+    width: 100vw;
     opacity: 0.9;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
 }
 
 header h1.logo {
     float: left;
-    margin: 10px;
+    margin: 1vh 1vw 1vh 1vw;
 }
 
 a.link {
@@ -29,62 +29,96 @@ header form.login {
 }
 
 
-header .container {
+header #navbar_container {
     position: sticky;
-    width: 1000px;
+    width: 80vw;
     margin-left: auto;
     margin-right: auto;
 }
 
 .container {
-    width: 800px;
+    width: 41vw;
     margin-left: auto;
     margin-right: auto;
 }
 
 #category_container {
-    display: inline;
     float: left;
     position: relative;
-    left: 440px;
-    top: 100px;
+    left: 23vw;
+    top: 10vh;
 }
 
 #category_btn {
     width: 100px;
 }
 
-#greeting {
-    float: left;
+#search_bar {
     position: relative;
-    top: 4px;
-    left: 60px;
+    top: 2vh;
+    left: 8vw;
+    width: 15vw;
+}
+
+#search_btn {
+    position: relative;
+    top: 2vh;
+    left: 8vw;
+}
+
+#greeting {
+    float: right;
+    position: relative;
+    bottom: 1.7vh;
+    right: 19vw;
 }
 
 #mypage_link {
     position: relative;
-    top: 20px;
-    left: 202px;
+    float: right;
+    right: -0.1vw;
 }
 
 #cart_link {
+    float: right;
     position: relative;
-    top: 20px;
-    left: 40px;
+    left: 6vw;
 }
 
 #register_link {
     position: relative;
-    top: 22px;
     float: right;
     left: 500px;
 }
 
+#admin_orders_link {
+    float: right;
+    position: relative;
+    left: 380px;
+}
+
+#login_email {
+    position: relative;
+    top: -2.3vh;
+}
+
+#login_password {
+    position: relative;
+    top: -2.3vh;
+}
+
+
+#login_btn {
+    position: relative;
+    top: -2.3vh;
+}
+
+
 #logout_btn {
     float: right;
     position: relative;
-    top: 18px;
-    right: 62px;
+    bottom: 0.2vh;
+    left: 11.5vw;
 }
 
 #flash_message {
@@ -105,6 +139,120 @@ header .container {
     clear: both;
 }
 
+#no_products {
+    position: relative;
+    left: 20px;
+}
+
+#order_info_gray {
+    background-color: #EEEEEE;
+    clear: left;
+}
+
+#order_info_white {
+    background-color: #DDDDDD;
+    clear: left;
+}
+
+#order_header {
+    display: inline-block;
+    width: inherit;
+    height: 35px;
+}
+
+#order_date {
+    position: relative;
+    left: 4vw;
+    float: left;
+    font-weight: bold;
+}
+
+#order_price {
+    position: relative;
+    left: 5vw;
+    float: left;
+    font-weight: bold;
+}
+
+#order_complete {
+    float: right;
+    color: green;
+}
+
+#order_cancel {
+    position: relative;
+    top: 1.8vh;
+    float: right;
+}
+
+#order_product_header {
+    text-align: right;
+    clear: left;
+    width: inherit;
+    float: left;
+    background-color: #CCCCCC;
+}
+
+#order_product_header_name {
+    position: relative;
+    right: 481px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+#order_product_header_quantity {
+    float: right;
+    position: relative;
+    right: 447px;
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+
+#order_product_header_price {
+    float: right;
+    position: relative;
+    right: 123px;
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+
+#order_product_name {
+    display: inline-block;
+}
+
+#order_product_quantity {
+    display: inline-block;
+    width: 100px;
+    float: right;
+    position: relative;
+    right: 410px;
+}
+
+#order_product_price {
+    display: inline-block;
+    width: 100px;
+    float: right;
+    position: relative;
+    right: 100px;
+}
+
+#admin_order_name {
+    float: left;
+}
+
+#admin_order_date {
+    float: left;
+    position: relative;
+    left: 100px;
+}
+
+#admin_order_price {
+    position: relative;
+    left: 200px;
+}
+
 #product_page_name {
     font-size: 30px;
     clear: both;
@@ -112,15 +260,15 @@ header .container {
 }
 
 #product_page_image {
-    width: 350px;
-    height: 350px;
+    width: 20vw;
+    height: 20vw;
     float: left;
 }
 
 #product_page_container {
     float: right;
-    width: 450px;
-    height: 350px;
+    width: 21vw;
+    height: 20vw;
     text-align: center;
 }
 
@@ -151,7 +299,7 @@ header .container {
 
 #product_page_no_comments
 {
-    clear: both;
+    clear:both
 }
 
 #product_page_comments {
@@ -178,6 +326,12 @@ header .container {
     clear: left;
     width: inherit;
     height: 100px;
+}
+
+#cart_btn {
+    position: relative;
+    bottom: 10px;
+    float: right;
 }
 
 #checkout_cart {
@@ -207,6 +361,7 @@ header .container {
 #product_text {
     float: left;
     height: inherit;
+    width: 340px;
     margin-left: 10px;
 }
 
@@ -217,29 +372,33 @@ header .container {
 }
 
 #product_nrs {
+    display: inline-block;
+    position: relative;
+    top: 25px;
+    left: 15px;
     text-align: right;
 }
 
 #product_quantity {
-    display: inline;
-    position: relative;
-    top: 45px;
-    right: 150px;
+    display: inline-block;
+    width: 100px;
+    height: auto;
 }
 
 #product_price {
-    display: inline;
-    position: relative;
-    top: 45px;
-    right: 100px;
+    display: inline-block;
+    width: 110px;
+    height: auto;
     font-weight: bold;
 }
 
 #add_to_cart {
+    position: relative;
+    right: 30px;
+    bottom: 15px;
     width: 70px;
     height: 30px;
     float: right;
-    margin: 20px;
 }
 
 

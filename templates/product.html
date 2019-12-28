@@ -6,7 +6,8 @@
         <h2 id="product_page_quantity"> {{ product.quantity }} st </h2>
         <form action="{{ url_for("add_to_cart") }}" method="POST">
             <input type="hidden" name="product_id" value="{{ product.product_id }}">
-            <input type="submit" id="product_page_add_to_cart" value="Köp">
+            <input type="hidden" name="show_page" value="1">
+            <input type="submit" id="product_page_add_to_cart" value="Buy">
         </form>
     </div>
     <h1 id="product_page_name"> {{ product.name }} </h1>
@@ -34,8 +35,12 @@
     {% if comments %}
         {% for comment in comments %}
             <div id="product_page_comments">
-                <h4> Användare #{{ comment.user_id }} says: </h4>
-                <p>{{ comment.comment }}</p>
+                {% if comment.last_name != None %}
+                    <h4> {{ comment.first_name }} {{ comment.last_name }} says: </h4>
+                {% else %}
+                    <h4> {{ comment.first_name }} says: </h4>
+                {% endif %}
+                <p>{{ comment.rating }}/5 - {{ comment.comment }}</p>
             </div>
         {% endfor %}
     {% else %}

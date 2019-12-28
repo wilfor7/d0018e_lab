@@ -12,13 +12,17 @@
     <body>
         <!-- Navigation bar -->
         <header>
-            <div class="container">
-                <h1 class="logo"><a class="link" href="/"> Computers & Hardware & Stuff </a></h1>
+            <div id="navbar_container">
+                <h1 class="logo"><a class="link" href="/"> Computers & TVs & Stuff </a></h1>
+                <form action="{{ url_for("search_products") }}" method="POST">
+                    <input type="text" name="search" placeholder="Search products" id="search_bar" maxlength="50">
+                    <input type="submit" value="Search" id="search_btn">
+                </form>
                 {% if not user %}
                     <form action="{{ url_for("login_user") }}" method="POST" class="login">
-                        <input type="text" name="email" placeholder="Email">
-                        <input type="password" name="password" placeholder="Password">
-                        <input type="submit" value="Login">
+                        <input type="text" name="email" placeholder="Email" id="login_email" maxlength="100">
+                        <input type="password" name="password" placeholder="Password" id="login_password" maxlength="99">
+                        <input type="submit" id="login_btn" value="Login">
                     </form>
                     <a id="register_link" href={{ url_for("register") }}>Register</a>
                 {% else %}
@@ -29,11 +33,14 @@
                          Hi {{ user.first_name }} {{ user.last_name }}
                      {% endif %}
                      </p>
-                    <a id="mypage_link" href={{ url_for("my_page") }}>My Page</a>
-                    <a id="cart_link" href={{ url_for("shopping_cart") }}>Kundvagn</a>
+                    <a id="mypage_link" href={{ url_for("my_page") }}> My Page </a>
+                    <a id="cart_link" href={{ url_for("shopping_cart") }}> Cart </a>
                     <form action="{{ url_for("logout_user") }}" id="logout_btn" method="post" >
                         <input type="submit" value="Logout">
                     </form>
+                    {% if user.admin == True %}
+                        <a id="admin_orders_link" href="{{ url_for("admin_orders") }}"> Admin </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </header>

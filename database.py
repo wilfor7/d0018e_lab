@@ -1,7 +1,7 @@
 import mysql.connector
-from datetime import  date
+from datetime import date
 
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class StoreQuantityError(Exception):
@@ -14,7 +14,7 @@ class Database:
             self.db = mysql.connector.connect(
                 host="localhost",
                 user="root",
-                password="9a5k3Aq5zb5XaAFW",
+                password="D0018ELabPass",
                 database="d0018e_lab"
             )
             print("Server and database connection established.")
@@ -22,6 +22,12 @@ class Database:
             print("Cursor created.")
         except mysql.connector.errors.ProgrammingError:
             print("Error establishing a connection")
+
+    @staticmethod
+    def authenticate_user(user, password):
+        if check_password_hash(user["password_hash"], password):
+            return True
+        return False
 
     # Insert some stuff to a table
     # Columns: A list of column names (in order)
@@ -84,13 +90,19 @@ class Database:
         return self.__parse_list(product)
 
     # Get products of some category. If category is None all products are fetched
-    def get_products(self, category_id=None):
-        if category_id is None:
+    def get_products(self, category_id):
+        if category_id is 0:
             products = self.__fetch_table("products")      # actual table information (list of lists)
         else:
             sql = "SELECT * FROM products WHERE category_id = " + str(category_id)
             self.cursor.execute(sql)
             products = self.cursor.fetchall()
+        return self.__parse_double_list(products)
+
+    def search_products(self, search_phrase):
+        sql = "SELECT * FROM products WHERE name LIKE '%" + str(search_phrase) + "%'"
+        self.cursor.execute(sql)
+        products = self.cursor.fetchall()
         return self.__parse_double_list(products)
 
     # Subtracts the quantity of products in the table "products" with some given products
@@ -107,7 +119,10 @@ class Database:
             self.cursor.execute(sql)
             self.db.commit()
 
-    def add_user(self, user_columns, user_values):
+    def add_user(self, email, password, first_name, last_name):
+        user_columns = ("email", "password_hash", "first_name", "last_name", "date_joined", "admin")
+        user_values = [email, generate_password_hash(password),
+                       first_name, last_name, date.today().__str__(), str(0)]
         self.__table_insert("users", user_columns, user_values)
         self.db.commit()
 
@@ -121,6 +136,11 @@ class Database:
         if user_info is None:
             return -1
         return self.__parse_list(user_info)
+
+    def __get_user_names(self, user_id):
+        sql = "SELECT first_name, last_name FROM users WHERE user_id = " + str(user_id)
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
 
     def change_user_email(self, old_user_email, new_user_email,):
         sql = "UPDATE users SET email = '" + new_user_email + "' WHERE email = '" + old_user_email + "'"
@@ -190,8 +210,8 @@ class Database:
 
     # Add a order and ordered_products given some products
     def add_order(self, products, user_id):
-        columns = ("user_id", "date_ordered")
-        values = (str(user_id), date.today().__str__())
+        columns = ("user_id", "date_ordered", "complete")
+        values = (str(user_id), date.today().__str__(), str(0))
         self.__table_insert("orders", columns, values)
         order_id = self.cursor.lastrowid
         for product in products:
@@ -201,13 +221,39 @@ class Database:
             self.__table_insert("ordered_products", columns, values)
         self.db.commit()
 
+    def cancel_order(self, order_id):
+        sql = "DELETE FROM ordered_products WHERE order_id = " + str(order_id)
+        self.cursor.execute(sql)
+        sql = "DELETE FROM orders WHERE order_id = " + str(order_id)
+        self.cursor.execute(sql)
+        self.db.commit()
+
+    def complete_order(self, order_id):
+        sql = "UPDATE orders SET complete = TRUE WHERE order_id = " + str(order_id)
+        self.cursor.execute(sql)
+        self.db.commit()
+
     def get_orders(self, user_id):
         sql = "SELECT * FROM orders WHERE user_id = " + str(user_id)
         self.cursor.execute(sql)
         orders = self.cursor.fetchall()
         return self.__parse_double_list(orders)
 
-    def get_ordered_products(self, user_id):
+    def get_complete_orders(self):
+        sql = "SELECT * FROM orders WHERE complete = TRUE"
+        self.cursor.execute(sql)
+        return self.__parse_double_list(self.cursor.fetchall())
+
+    def get_incomplete_orders(self):
+        sql = "SELECT * FROM orders WHERE complete = FALSE"
+        self.cursor.execute(sql)
+        return self.__parse_double_list(self.cursor.fetchall())
+
+    def get_ordered_products(self, user_id=None):
+        if user_id is None:
+            sql = "SELECT * FROM ordered_products"
+            self.cursor.execute(sql)
+            return self.__parse_double_list(self.cursor.fetchall())
         sql = "SELECT order_id FROM orders WHERE user_id = " + str(user_id)
         self.cursor.execute(sql)
         ids = self.cursor.fetchall()
@@ -232,3 +278,12 @@ class Database:
         self.cursor.execute(sql)
         comments = self.cursor.fetchall()
         return self.__parse_double_list(comments)
+
+    # given a list of dictionaries
+    # for each dictionary in the list of dictionaries
+    # add 'dictionary[first_name]' and 'dictionary[last_name]' given that 'dictionary["user_id"]' already exists
+    def add_names(self, dictionaries):
+        for dict in dictionaries:
+            user_names = self.__get_user_names(dict["user_id"])
+            dict["first_name"] = user_names[0][0]
+            dict["last_name"] = user_names[0][1]

@@ -2,11 +2,11 @@
 {% block content %}
     <h2 id="page_title">Register</h2>
     <form action="{{ url_for("register_user") }}" method="POST" id="register_forms">
-        <input type="text" name="first_name" placeholder="First name">
-        <input type="text" name="last_name" placeholder="Last name">
-        <input type="text" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <input type="password" name="confirm_password" placeholder="Confirm Password">
+        <input type="text" name="first_name" placeholder="First name" maxlength="100">
+        <input type="text" name="last_name" placeholder="Last name" maxlength="100">
+        <input type="text" name="email" placeholder="Email" maxlength="100">
+        <input type="password" name="password" placeholder="Password" maxlength="99">
+        <input type="password" name="confirm_password" placeholder="Confirm Password" maxlength="99">
         <input type="submit" value="Register">
     </form>
 {% endblock content %}

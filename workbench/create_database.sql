@@ -1,3 +1,4 @@
+CREATE DATABASE d0018e_lab;
 USE d0018e_lab;
 
 CREATE TABLE categories (
@@ -10,7 +11,7 @@ CREATE TABLE categories (
 CREATE TABLE products (
 	product_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    short_description VARCHAR(100),
+    short_description VARCHAR(55),
     full_description VARCHAR(500) NOT NULL,
     price INT NOT NULL,
     category_id INT UNSIGNED,
@@ -26,7 +27,8 @@ CREATE TABLE users (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100),
     password_hash VARCHAR(100) NOT NULL,
-    date_joined DATE NOT NULL
+    date_joined DATE NOT NULL,
+    admin BOOL
 );
 
 CREATE TABLE cart_products (
@@ -43,6 +45,7 @@ CREATE TABLE orders (
 	order_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED,
     date_ordered DATE NOT NULL,
+    complete BOOL,
     
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
